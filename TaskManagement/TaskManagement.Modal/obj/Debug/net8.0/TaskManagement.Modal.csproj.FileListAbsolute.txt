@@ -1,0 +1,15 @@
+C:\Users\sit353\Desktop\Test\TaskManagement\TaskManagement.Modal\bin\Debug\net8.0\TaskManagement.Modal.deps.json
+C:\Users\sit353\Desktop\Test\TaskManagement\TaskManagement.Modal\bin\Debug\net8.0\TaskManagement.Modal.dll
+C:\Users\sit353\Desktop\Test\TaskManagement\TaskManagement.Modal\bin\Debug\net8.0\TaskManagement.Modal.pdb
+C:\Users\sit353\Desktop\Test\TaskManagement\TaskManagement.Modal\obj\Debug\net8.0\TaskManagement.Modal.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\sit353\Desktop\Test\TaskManagement\TaskManagement.Modal\obj\Debug\net8.0\TaskManagement.Modal.AssemblyInfoInputs.cache
+C:\Users\sit353\Desktop\Test\TaskManagement\TaskManagement.Modal\obj\Debug\net8.0\TaskManagement.Modal.AssemblyInfo.cs
+C:\Users\sit353\Desktop\Test\TaskManagement\TaskManagement.Modal\obj\Debug\net8.0\TaskManagement.Modal.csproj.CoreCompileInputs.cache
+C:\Users\sit353\Desktop\Test\TaskManagement\TaskManagement.Modal\obj\Debug\net8.0\TaskManagement.Modal.dll
+C:\Users\sit353\Desktop\Test\TaskManagement\TaskManagement.Modal\obj\Debug\net8.0\refint\TaskManagement.Modal.dll
+C:\Users\sit353\Desktop\Test\TaskManagement\TaskManagement.Modal\obj\Debug\net8.0\TaskManagement.Modal.pdb
+C:\Users\sit353\Desktop\Test\TaskManagement\TaskManagement.Modal\obj\Debug\net8.0\ref\TaskManagement.Modal.dll
+C:\Users\sit353\Desktop\Test\TaskManagement\TaskManagement.Modal\obj\Debug\net8.0\TaskManagement.Modal.csproj.AssemblyReference.cache
+C:\Users\sit353\Desktop\Test\TaskManagement\TaskManagement.Modal\bin\Debug\net8.0\TaskManagement.Common.dll
+C:\Users\sit353\Desktop\Test\TaskManagement\TaskManagement.Modal\bin\Debug\net8.0\TaskManagement.Common.pdb
+C:\Users\sit353\Desktop\Test\TaskManagement\TaskManagement.Modal\obj\Debug\net8.0\TaskMana.08760E71.Up2Date
