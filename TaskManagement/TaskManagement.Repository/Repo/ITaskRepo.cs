@@ -12,5 +12,6 @@ namespace TaskManagement.Repository.Repo
     {
         Task<ErrorModal> AddEditTaskAsync(TaskManagementDto task);
         Task<List<TaskManagementDto>> GetAllTasksAsync(int Empid);
+        Task<ErrorModal> DeleteTaskAsync(int  TaskId);
     }
 }

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -20,7 +20,7 @@ namespace TaskManagement.Modal
         public int? TaskStatus { get; set; }
         [Required]
         public int? TaskFor { get; set; }
-
+        [Required]
         public int? AssignedBy { get; set; }
 
         public DateTime? AssignedTime { get; set; }

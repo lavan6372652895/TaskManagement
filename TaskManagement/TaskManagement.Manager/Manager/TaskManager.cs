@@ -33,6 +33,22 @@ namespace TaskManagement.Manager.Manager
             return errorModal;
         }
 
+        public async Task<ErrorModal> DeleteTaskAsync(int TaskId)
+        {
+            ErrorModal errorModal = new ErrorModal();
+            try
+            {
+                errorModal = await _taskRepo.DeleteTaskAsync(TaskId).ConfigureAwait(false);
+            }
+            catch (Exception ex)
+            {
+                errorModal.ErrorMessage = ex.Message;
+                errorModal.ErrorCode = 500;
+            }
+            return errorModal;
+        }
+
+
         public async Task<List<TaskManagementDto>> GetAllTasksAsync(int Empid)
         {
             List<TaskManagementDto> result = new List<TaskManagementDto>();

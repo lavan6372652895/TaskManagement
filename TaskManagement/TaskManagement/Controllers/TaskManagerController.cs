@@ -62,5 +62,26 @@ namespace TaskManagement.Controllers
             return result;
         }
 
+        [HttpDelete]
+        public async Task<ApiResponse> DeleteTaskAsync(int taskId)
+        {
+            ApiResponse response = new ApiResponse();
+            try
+            {
+                var result = await _taskmanager.DeleteTaskAsync(taskId).ConfigureAwait(false);
+                response.Success = result.ErrorCode == 200;
+                response.Errorcode = result.ErrorCode;
+                response.Message = result.ErrorMessage;
+            }
+            catch (Exception ex)
+            {
+                response.Success = false;
+                response.Errorcode = 500;
+                response.Message = $"An error occurred: {ex.Message}";
+            }
+            return response;
+        }
+
+
     }
 }

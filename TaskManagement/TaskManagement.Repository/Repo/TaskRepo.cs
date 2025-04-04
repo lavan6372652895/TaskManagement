@@ -40,12 +40,12 @@ namespace TaskManagement.Repository.Repo
                     if (existingTask != null)
                     {
                         _context.Entry(existingTask).CurrentValues.SetValues(data);
-                        modal.ErrorMessage = "Task is Updated Succefully";
+                        modal.ErrorMessage = "Task is Updated Successfully";
                     }
                     else
                     {
                         await _context.TaskManagements.AddAsync(data);
-                        modal.ErrorMessage = "Task Is Added Succefully";
+                        modal.ErrorMessage = "Task Is Added Successfully";
                     }
 
                     await _context.SaveChangesAsync(); // Ensure async save
@@ -71,8 +71,9 @@ namespace TaskManagement.Repository.Repo
             try
             {
                 string roleNames = (from emp in  _context.Employees
-                                 join role in _context.Roles on emp.Roles equals role.Id where emp.EmpId ==Empid
-                                 select role.RoleName).FirstOrDefault();
+                                 join role in _context.Roles on
+                                 emp.Roles equals role.Id where emp.EmpId ==Empid
+                                 select role.RoleName).AsNoTracking().FirstOrDefault() ?? string.Empty;
 
                 if (roleNames.Equals("Developer"))
                 {
@@ -100,7 +101,34 @@ namespace TaskManagement.Repository.Repo
             return AssignedBy;
         }
 
+        public async Task<ErrorModal> DeleteTaskAsync(int taskId)
+        {
+            ErrorModal modal = new ErrorModal();
+            try
+            {
+                var task = await _context.TaskManagements.FindAsync(taskId);
+                if (task != null)
+                {
+                    _context.TaskManagements.Remove(task);
+                    await _context.SaveChangesAsync();
 
+                    modal.ErrorCode = 200;
+                    modal.ErrorMessage = "Task deleted successfully.";
+                }
+                else
+                {
+                    modal.ErrorCode = 204;
+                    modal.ErrorMessage = "Task not found.";
+                }
+            }
+            catch (Exception ex)
+            {
+                modal.ErrorCode = 500;
+                modal.ErrorMessage = $"An error occurred: {ex.Message}";
+            }
+
+            return modal;
+        }
 
 
     }

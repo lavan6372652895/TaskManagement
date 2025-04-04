@@ -31,11 +31,11 @@ namespace TaskManagement.Repository.Repo
             try
             {
                 // Attempt to find the user by username
-                var user = await _context.UserAuthontications
+                var user = await _context.UserAuthontications.AsNoTracking()
                                           .FirstOrDefaultAsync(x => x.Username == login.UserName)
                                           .ConfigureAwait(false);
 
-                // If the username is found, validate the password
+                  // If the username is found, validate the password
                 if (user != null)
                 {
                     // If passwords match (ensure password is hashed and compared securely)
