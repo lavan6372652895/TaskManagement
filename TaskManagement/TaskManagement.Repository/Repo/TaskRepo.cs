@@ -70,23 +70,61 @@ namespace TaskManagement.Repository.Repo
             List<TaskManagementDto> data = new List<TaskManagementDto>();
             try
             {
-                string roleNames = (from emp in  _context.Employees
-                                 join role in _context.Roles on
-                                 emp.Roles equals role.Id where emp.EmpId ==Empid
-                                 select role.RoleName).AsNoTracking().FirstOrDefault() ?? string.Empty;
+                string roleNames = (from emp in _context.Employees
+                                    join role in _context.Roles on emp.Roles equals role.Id
+                                    where emp.EmpId == Empid
+                                    select role.RoleName).AsNoTracking().FirstOrDefault() ?? string.Empty;
 
                 if (roleNames.Equals("Developer"))
                 {
-                    var result = await _context.TaskManagements.Where(x=>x.TaskFor==Empid).ToListAsync().ConfigureAwait(false);
-                    data =_mapper.Map<List<TaskManagementDto>>(result);
+                    // Join TaskManagement with Employees and Roles to get the necessary information
+                    var result = from task in _context.TaskManagements
+                                 join emp in _context.Employees on task.AssignedBy equals emp.EmpId
+                                 join r in _context.Roles on emp.Roles equals r.Id
+                                 where task.TaskFor == Empid
+                                 select new { task, emp.EmpName, r.RoleName };
+
+                    // Execute the query and map to DTO manually
+                    var taskList = await result.ToListAsync();
+
+                    data = taskList.Select(t => new TaskManagementDto
+                    {
+                        TaskId = t.task.TaskId,
+                        TaskFor = t.task.TaskFor,
+                        AssignedBy = t.task.AssignedBy,
+                        TaskName = t.task.TaskName,
+                        TaskStatus = t.task.TaskStatus,
+                        Emp_name = t.EmpName,  // Assign Employee Name to DTO
+                        RoleName = t.RoleName,  // Assign Role Name to DTO
+                        AssignedTime = t.task.AssignedTime,
+                        TaskDetails = t.task.TaskDetails
+                    }).ToList();
                 }
                 else
                 {
-                    var result = await _context.TaskManagements.Where(x=>x.AssignedBy==Empid).ToListAsync().ConfigureAwait(false);
-                    data = _mapper.Map<List<TaskManagementDto>>(result);
+                    // Join TaskManagement with Employees and Roles to get the necessary information
+                    var result = from task in _context.TaskManagements
+                                 join emp in _context.Employees on task.TaskFor equals emp.EmpId
+                                 join r in _context.Roles on emp.Roles equals r.Id
+                                 where task.AssignedBy == Empid
+                                 select new { task, emp.EmpName, r.RoleName };
 
+                    // Execute the query and map to DTO manually
+                    var taskList = await result.ToListAsync();
+
+                    data = taskList.Select(t => new TaskManagementDto
+                    {
+                        TaskId = t.task.TaskId,
+                        TaskFor = t.task.TaskFor,
+                        AssignedBy = t.task.AssignedBy,
+                        TaskName = t.task.TaskName,
+                        TaskStatus = t.task.TaskStatus,
+                        Emp_name = t.EmpName,  // Assign Employee Name to DTO
+                        RoleName = t.RoleName,  // Assign Role Name to DTO
+                        AssignedTime = t.task.AssignedTime,
+                        TaskDetails = t.task.TaskDetails
+                    }).ToList();
                 }
-
             }
             catch (Exception ex)
             {
@@ -94,6 +132,7 @@ namespace TaskManagement.Repository.Repo
             }
             return data;
         }
+
 
         private int[] CheckHierarchy(int? managerid)
         {
@@ -130,6 +169,41 @@ namespace TaskManagement.Repository.Repo
             return modal;
         }
 
+        public async Task<List<EmployeeDto>> GetEmployeeHierarchyAsync(int EmployeeId)
+        {
+            try
+            {
+                // Await the asynchronous query
+                var data = await _context.Employees
+                                         .AsNoTracking()
+                                         .Where(x => x.ManagerId == EmployeeId)
+                                         .ToListAsync()
+                                         .ConfigureAwait(false);
 
+                // Map the list of Employees to EmployeeDto objects
+                return _mapper.Map<List<EmployeeDto>>(data);
+            }
+            catch (Exception ex)
+            {
+                // Optionally log the exception before throwing
+                throw new Exception($"Error occurred while retrieving employee hierarchy: {ex.Message}", ex);
+            }
+        }
+
+        public async Task<TaskManagementDto> GetTaskByIdAsync(int Taskid)
+        {
+            TaskManagementDto Data = new TaskManagementDto();
+            try
+            {
+                var result = await _context.TaskManagements.FirstOrDefaultAsync(x => x.TaskId == Taskid);
+                return _mapper.Map<TaskManagementDto>(result);
+            }
+            catch(Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            
+
+        }
     }
 }

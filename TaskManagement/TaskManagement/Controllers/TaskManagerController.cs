@@ -81,7 +81,45 @@ namespace TaskManagement.Controllers
             }
             return response;
         }
+        [HttpGet]
+        public async Task<ApiResponse<EmployeeDto>> GetEmployeeHierarchyAsync(int EmployeeId) 
+        {
+            ApiResponse<EmployeeDto> result = new ApiResponse<EmployeeDto>();
+            try
+            {
+                result.Data = await _taskmanager.GetEmployeeHierarchyAsync(EmployeeId).ConfigureAwait(false);
+                result.Success = true;
+                result.Errorcode = 200;
 
+            }
+            catch (Exception ex)
+            { 
+                result.Success = false;
+                result.Errorcode = 500;
+                result.Message = ex.Message;
+            }
+            return result;  
+        }
+
+        [HttpGet]
+        public async Task<ApiPostResponse<TaskManagementDto>> GetTaskByIdAsync(int taskind)
+        {
+            ApiPostResponse<TaskManagementDto> result = new ApiPostResponse<TaskManagementDto>();
+            try
+            {
+                result.Data = await _taskmanager.GetTaskByIdAsync(taskind).ConfigureAwait(false);
+                result.Success = true;
+                result.Message = "data Featched succefully";
+                result.Errorcode = 200;
+            }
+            catch(Exception ex)
+            {
+                result.Success = false;
+                result.Errorcode = 500;
+                result.Message = ex.Message;
+            }
+            return result;
+        }
 
     }
 }

@@ -10,7 +10,7 @@ using TaskManagement.Repository.Repo;
 
 namespace TaskManagement.Manager.Manager
 {
-    public class TaskManager:ITaskManager
+    public class TaskManager : ITaskManager
     {
         private readonly ITaskRepo _taskRepo;
         public TaskManager(ITaskRepo taskrepo) 
@@ -61,6 +61,23 @@ namespace TaskManagement.Manager.Manager
             throw(ex);
             }
             return result;
+        }
+
+        public Task<List<EmployeeDto>> GetEmployeeHierarchyAsync(int EmployeeId)
+        {
+           return _taskRepo.GetEmployeeHierarchyAsync(EmployeeId);
+        }
+
+        public async Task<TaskManagementDto> GetTaskByIdAsync(int Taskid)
+        {
+            try
+            {
+                return await _taskRepo.GetTaskByIdAsync(Taskid).ConfigureAwait(false);
+            }
+            catch(Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
     }
 }

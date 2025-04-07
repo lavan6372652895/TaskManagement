@@ -1,3 +1,4 @@
+using Hangfire;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -6,6 +7,7 @@ using System.ComponentModel;
 using System.Text;
 using TaskManagement;
 using TaskManagement.Repository.DbModal;
+using System.Data.SqlClient;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,7 +16,7 @@ builder.Services.AddDbContext<TaskmanagementContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 RegisterServices.RegisterService(builder.Services);
 builder.Services.AddAutoMapper(typeof(DtoProfile));
-builder.Services.AddControllers();
+
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -65,6 +67,14 @@ builder.Services.AddAuthentication(options => {
     };
 });
 
+builder.Services.AddHangfire((sp,cfg) =>
+{
+    var connection = sp.GetService<IConfiguration>().GetConnectionString("HangfiredbConnection");
+    cfg.UseSqlServerStorage(connection);    
+});
+builder.Services.AddHangfireServer();
+
+builder.Services.AddControllers();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -73,11 +83,17 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
+app.UseCors(policy =>
+    policy
+        .WithOrigins("http://localhost:4200") // Specify the exact origin
+        .AllowAnyHeader()
+        .AllowAnyMethod()
+        .AllowCredentials() // Allow credentials
+);
 app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
-
+app.UseHangfireDashboard();
 app.Run();

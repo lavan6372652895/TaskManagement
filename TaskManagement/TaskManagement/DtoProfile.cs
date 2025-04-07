@@ -8,7 +8,9 @@ namespace TaskManagement
     {
         public DtoProfile()
         {
+
             CreateMap<Employee, EmployeeDto>().ReverseMap();
+
             CreateMap<TaskManagement.Repository.DbModal.TaskManagement, TaskManagementDto>().ReverseMap();
         
         }

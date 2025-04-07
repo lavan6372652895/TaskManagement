@@ -8,7 +8,7 @@ using TaskManagement.Modal;
 
 namespace TaskManagement.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
    
     public class HomeController : ControllerBase

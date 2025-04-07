@@ -13,5 +13,7 @@ namespace TaskManagement.Manager.Manager
         Task<ErrorModal> AddEditTaskAsync(TaskManagementDto task);
         Task<List<TaskManagementDto>> GetAllTasksAsync(int Empid);
         Task<ErrorModal> DeleteTaskAsync(int TaskId);
+        Task<List<EmployeeDto>> GetEmployeeHierarchyAsync(int EmployeeId);
+        Task<TaskManagementDto> GetTaskByIdAsync(int Taskid);
     }
 }

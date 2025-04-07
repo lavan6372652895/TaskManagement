@@ -24,5 +24,15 @@ namespace TaskManagement.Modal
         public int? AssignedBy { get; set; }
 
         public DateTime? AssignedTime { get; set; }
+        
+        public string? Emp_name { get; set; }
+        public string? RoleName { get; set; }
+        //public string managername { get; set; }
+
     }
+    //public class TaskDetails: TaskManagementDto
+    //{
+    //    public string Empname { get; set; }
+    //    public string managername { get; set; }
+    //}
 }
